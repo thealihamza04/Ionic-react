@@ -96,4 +96,3 @@ const Notes: React.FC<NotesProps> = ({ notes, setNotes }) => {
 };
 
 export default Notes;
-

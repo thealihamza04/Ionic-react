@@ -13,6 +13,77 @@
 
     <link rel="stylesheet" href="/timetable.base.css" />
     <link rel="stylesheet" href="/timetable.states.css" />
+    <style>
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #05060d;
+          --surface: #0f131f;
+          --surface2: #11162b;
+          --border: rgba(255, 255, 255, 0.12);
+          --text-1: #f3f5ff;
+          --text-2: #cbd5f5;
+          --text-3: #94a3b8;
+        }
+
+        body {
+          background: radial-gradient(circle at 20% -10%, rgba(255, 255, 255, 0.08), transparent 32%),
+            radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.05), transparent 38%), #05060d;
+        }
+
+        body::before {
+          opacity: 0.12;
+        }
+
+        .page {
+          background: #05060d;
+        }
+
+        .header,
+        .legend,
+        .ramadan-banner,
+        .day-card,
+        .card,
+        .table-wrap,
+        .tbl-scroll,
+        .mobile-view {
+          background: #0f131f;
+          box-shadow: 0 25px 40px rgba(0, 0, 0, 0.45);
+        }
+
+        .header-text h1,
+        h1 {
+          color: #f3f5ff;
+        }
+
+        .legend .leg-chip {
+          border-color: rgba(255, 255, 255, 0.12);
+        }
+
+        .card,
+        .m-content,
+        .day-card {
+          border-color: rgba(255, 255, 255, 0.08);
+          color: #eef2ff;
+        }
+
+        .bg-panel,
+        .m-slot {
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
+        }
+
+        .th-time,
+        .th-day,
+        .t-normal,
+        .t-ramadan {
+          color: #cbd5f5;
+        }
+
+        .ramadan-banner,
+        .legend {
+          border-color: rgba(255, 255, 255, 0.1);
+        }
+      }
+    </style>
   </head>
 
   <body>
@@ -599,4 +670,3 @@
     <script src="/timetable.js" defer></script>
   </body>
 </html>
-
