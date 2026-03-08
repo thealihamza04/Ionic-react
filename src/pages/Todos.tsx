@@ -2,6 +2,10 @@ import React, { useMemo, useState } from 'react';
 import {
   IonAlert,
   IonButton,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
   IonCheckbox,
   IonContent,
   IonHeader,
@@ -23,6 +27,7 @@ type TodosProps = {
 
 const Todos: React.FC<TodosProps> = ({ todos, setTodos }) => {
   const [isAddOpen, setIsAddOpen] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState<TodoItem | null>(null);
 
   const remainingCount = useMemo(() => todos.filter((t) => !t.done).length, [todos]);
 
@@ -52,7 +57,8 @@ const Todos: React.FC<TodosProps> = ({ todos, setTodos }) => {
         <IonList inset>
           <IonItem>
             <IonLabel>
-              {todos.length} total • {remainingCount} remaining
+              <div style={{ fontWeight: 600 }}>{todos.length} total</div>
+              <div className="ion-text-muted">{remainingCount} remaining</div>
             </IonLabel>
           </IonItem>
           <IonItem>
@@ -64,24 +70,35 @@ const Todos: React.FC<TodosProps> = ({ todos, setTodos }) => {
         </IonList>
 
         <IonList inset>
-          {todos.map((todo) => (
-            <IonItem key={todo.id}>
-              <IonCheckbox
-                slot="start"
-                checked={todo.done}
-                onIonChange={(e) => toggleTodo(todo.id, Boolean(e.detail.checked))}
-              />
-              <IonLabel>{todo.title}</IonLabel>
-              <IonButton fill="clear" color="danger" onClick={() => deleteTodo(todo.id)}>
-                <IonIcon icon={trashOutline} aria-hidden="true" />
-              </IonButton>
-            </IonItem>
-          ))}
           {todos.length === 0 ? (
-            <IonItem>
-              <IonLabel>No todos yet.</IonLabel>
-            </IonItem>
-          ) : null}
+            <IonCard className="ion-padding" color="light">
+              <IonCardHeader>
+                <IonCardTitle>No todos yet</IonCardTitle>
+              </IonCardHeader>
+              <IonCardContent>
+                <p className="ion-margin-bottom">
+                  Keep track of tasks, reminders, or quick wins. The count stays synced automatically.
+                </p>
+                <IonButton expand="block" onClick={() => setIsAddOpen(true)}>
+                  Add your first todo
+                </IonButton>
+              </IonCardContent>
+            </IonCard>
+          ) : (
+            todos.map((todo) => (
+              <IonItem key={todo.id}>
+                <IonCheckbox
+                  slot="start"
+                  checked={todo.done}
+                  onIonChange={(e) => toggleTodo(todo.id, Boolean(e.detail.checked))}
+                />
+                <IonLabel>{todo.title}</IonLabel>
+                <IonButton fill="clear" color="danger" onClick={() => setPendingDelete(todo)}>
+                  <IonIcon icon={trashOutline} aria-hidden="true" />
+                </IonButton>
+              </IonItem>
+            ))
+          )}
         </IonList>
 
         <IonAlert
@@ -112,6 +129,29 @@ const Todos: React.FC<TodosProps> = ({ todos, setTodos }) => {
             }
           ]}
           onDidDismiss={() => setIsAddOpen(false)}
+        />
+        <IonAlert
+          isOpen={Boolean(pendingDelete)}
+          header="Delete todo?"
+          message={`Remove "${pendingDelete?.title}" from your list?`}
+          buttons={[
+            {
+              text: 'Cancel',
+              role: 'cancel',
+              handler: () => setPendingDelete(null)
+            },
+            {
+              text: 'Delete',
+              role: 'destructive',
+              handler: () => {
+                if (pendingDelete) {
+                  deleteTodo(pendingDelete.id);
+                }
+                setPendingDelete(null);
+              }
+            }
+          ]}
+          onDidDismiss={() => setPendingDelete(null)}
         />
       </IonContent>
     </IonPage>

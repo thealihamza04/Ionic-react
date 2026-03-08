@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import {
   IonAlert,
   IonButton,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
   IonContent,
   IonHeader,
   IonIcon,
@@ -22,6 +26,7 @@ type NotesProps = {
 
 const Notes: React.FC<NotesProps> = ({ notes, setNotes }) => {
   const [isAddOpen, setIsAddOpen] = useState(false);
+  const [pendingNoteDelete, setPendingNoteDelete] = useState<NoteItem | null>(null);
 
   const addNote = (text: string) => {
     const trimmed = text.trim();
@@ -52,19 +57,30 @@ const Notes: React.FC<NotesProps> = ({ notes, setNotes }) => {
         </IonList>
 
         <IonList inset>
-          {notes.map((note) => (
-            <IonItem key={note.id}>
-              <IonLabel>{note.text}</IonLabel>
-              <IonButton fill="clear" color="danger" onClick={() => deleteNote(note.id)}>
-                <IonIcon icon={trashOutline} aria-hidden="true" />
-              </IonButton>
-            </IonItem>
-          ))}
           {notes.length === 0 ? (
-            <IonItem>
-              <IonLabel>No notes yet.</IonLabel>
-            </IonItem>
-          ) : null}
+            <IonCard color="light" style={{ minHeight: '180px' }}>
+              <IonCardHeader>
+                <IonCardTitle>Capture ideas quickly</IonCardTitle>
+              </IonCardHeader>
+              <IonCardContent>
+                <p className="ion-margin-bottom">
+                  Draft a note, jot a reminder, or stash a link for later. Notes stay in sync automatically.
+                </p>
+                <IonButton expand="block" onClick={() => setIsAddOpen(true)}>
+                  Write a note
+                </IonButton>
+              </IonCardContent>
+            </IonCard>
+          ) : (
+            notes.map((note) => (
+              <IonItem key={note.id}>
+                <IonLabel>{note.text}</IonLabel>
+                <IonButton fill="clear" color="danger" onClick={() => setPendingNoteDelete(note)}>
+                  <IonIcon icon={trashOutline} aria-hidden="true" />
+                </IonButton>
+              </IonItem>
+            ))
+          )}
         </IonList>
 
         <IonAlert
@@ -89,6 +105,29 @@ const Notes: React.FC<NotesProps> = ({ notes, setNotes }) => {
             }
           ]}
           onDidDismiss={() => setIsAddOpen(false)}
+        />
+        <IonAlert
+          isOpen={Boolean(pendingNoteDelete)}
+          header="Delete note?"
+          message={`Remove this note? "${pendingNoteDelete?.text}"`}
+          buttons={[
+            {
+              text: 'Cancel',
+              role: 'cancel',
+              handler: () => setPendingNoteDelete(null)
+            },
+            {
+              text: 'Delete',
+              role: 'destructive',
+              handler: () => {
+                if (pendingNoteDelete) {
+                  deleteNote(pendingNoteDelete.id);
+                }
+                setPendingNoteDelete(null);
+              }
+            }
+          ]}
+          onDidDismiss={() => setPendingNoteDelete(null)}
         />
       </IonContent>
     </IonPage>
