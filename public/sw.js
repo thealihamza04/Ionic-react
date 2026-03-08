@@ -4,7 +4,16 @@ const CACHE_VERSION = 'v1';
 const APP_SHELL_CACHE = `app-shell-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `runtime-${CACHE_VERSION}`;
 
-const APP_SHELL_URLS = ['/', '/index.html', '/manifest.json', '/favicon.png'];
+const APP_SHELL_URLS = [
+  '/',
+  '/index.html',
+  '/manifest.json',
+  '/favicon.png',
+  '/timetable.html',
+  '/timetable.base.css',
+  '/timetable.states.css',
+  '/timetable.js'
+];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -36,7 +45,13 @@ self.addEventListener('fetch', (event) => {
   if (request.method !== 'GET') return;
 
   const url = new URL(request.url);
-  if (url.origin !== self.location.origin) return;
+  const isSameOrigin = url.origin === self.location.origin;
+
+  // Cache Google Fonts to keep typography working offline.
+  const isGoogleFonts =
+    url.origin === 'https://fonts.googleapis.com' || url.origin === 'https://fonts.gstatic.com';
+
+  if (!isSameOrigin && !isGoogleFonts) return;
 
   const isNavigation = request.mode === 'navigate';
 
@@ -80,4 +95,3 @@ self.addEventListener('fetch', (event) => {
     );
   }
 });
-

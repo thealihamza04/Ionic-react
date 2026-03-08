@@ -1,7 +1,9 @@
 import React from 'react';
 import {
+  IonButton,
   IonContent,
   IonHeader,
+  IonIcon,
   IonItem,
   IonLabel,
   IonList,
@@ -9,6 +11,7 @@ import {
   IonTitle,
   IonToolbar
 } from '@ionic/react';
+import { calendarOutline } from 'ionicons/icons';
 
 type HomeProps = {
   totalTodos: number;
@@ -31,6 +34,12 @@ const Home: React.FC<HomeProps> = ({ totalTodos, completedTodos, totalNotes }) =
               <h2>Welcome</h2>
               <p>Keep track of quick todos and notes.</p>
             </IonLabel>
+          </IonItem>
+          <IonItem>
+            <IonButton expand="block" href="/timetable.html">
+              <IonIcon slot="start" icon={calendarOutline} aria-hidden="true" />
+              Open timetable
+            </IonButton>
           </IonItem>
         </IonList>
 
@@ -56,4 +65,3 @@ const Home: React.FC<HomeProps> = ({ totalTodos, completedTodos, totalNotes }) =
 };
 
 export default Home;
-

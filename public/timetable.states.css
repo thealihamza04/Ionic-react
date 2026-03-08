@@ -1,0 +1,128 @@
+/* ══════════════════════════════════════
+   LECTURE TIME STATES
+   3 states: live (now), done, upcoming
+══════════════════════════════════════ */
+
+/* ── LIVE — pulsing green ring ── */
+.card.live,
+.m-content.live {
+  box-shadow: 0 0 0 2px var(--today-border);
+  filter: none !important;
+  opacity: 1 !important;
+  z-index: 3;
+  position: relative;
+}
+
+/* Animated top bar for live */
+.card.live::before,
+.m-content.live::before {
+  animation: livePulse 1.8s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* Live status badge injected by JS */
+.live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--today-border);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 2px 8px 2px 6px;
+  border-radius: 20px;
+  margin-top: 4px;
+  width: fit-content;
+}
+
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #fff;
+  animation: blink 1.1s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(0.7);
+  }
+}
+
+/* Progress bar — shows how far into the class we are */
+.progress-bar-wrap {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--today-border);
+  transition: width 60s linear;
+  border-radius: 0 2px 2px 0;
+}
+
+/* ── DONE — greyed out, crossed ── */
+.card.done,
+.m-content.done {
+  opacity: 0.38 !important;
+  filter: grayscale(0.5);
+}
+
+.done-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-3);
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 3px;
+}
+
+/* ── UPCOMING — subtle blue ring, normal opacity ── */
+.card.upcoming,
+.m-content.upcoming {
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+.upcoming-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--c-ai);
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 3px;
+}
+
