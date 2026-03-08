@@ -1,0 +1,117 @@
+import React, { useMemo, useState } from 'react';
+import { Redirect, Route } from 'react-router-dom';
+import {
+  IonApp,
+  IonIcon,
+  IonLabel,
+  IonRouterOutlet,
+  IonTabBar,
+  IonTabButton,
+  IonTabs,
+  setupIonicReact
+} from '@ionic/react';
+import { IonReactRouter } from '@ionic/react-router';
+import { checkboxOutline, documentTextOutline, homeOutline } from 'ionicons/icons';
+import Home from './pages/Home';
+import Notes from './pages/Notes';
+import Todos from './pages/Todos';
+
+/* Core CSS required for Ionic components to work properly */
+import '@ionic/react/css/core.css';
+
+/* Basic CSS for apps built with Ionic */
+import '@ionic/react/css/normalize.css';
+import '@ionic/react/css/structure.css';
+import '@ionic/react/css/typography.css';
+
+/* Optional CSS utils that can be commented out */
+import '@ionic/react/css/padding.css';
+import '@ionic/react/css/float-elements.css';
+import '@ionic/react/css/text-alignment.css';
+import '@ionic/react/css/text-transformation.css';
+import '@ionic/react/css/flex-utils.css';
+import '@ionic/react/css/display.css';
+
+/**
+ * Ionic Dark Mode
+ * -----------------------------------------------------
+ * For more info, please see:
+ * https://ionicframework.com/docs/theming/dark-mode
+ */
+
+/* import '@ionic/react/css/palettes/dark.always.css'; */
+/* import '@ionic/react/css/palettes/dark.class.css'; */
+import '@ionic/react/css/palettes/dark.system.css';
+
+/* Theme variables */
+import './theme/variables.css';
+
+setupIonicReact();
+
+export type TodoItem = { id: string; title: string; done: boolean };
+export type NoteItem = { id: string; text: string };
+
+const App: React.FC = () => {
+  const [todos, setTodos] = useState<TodoItem[]>([
+    { id: 't1', title: 'Try adding a todo', done: false },
+    { id: 't2', title: 'Check it off', done: true }
+  ]);
+  const [notes, setNotes] = useState<NoteItem[]>([
+    { id: 'n1', text: 'Welcome! Add a quick note.' }
+  ]);
+
+  const summary = useMemo(() => {
+    const totalTodos = todos.length;
+    const completedTodos = todos.filter((t) => t.done).length;
+    const totalNotes = notes.length;
+    return { totalTodos, completedTodos, totalNotes };
+  }, [notes.length, todos]);
+
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <IonTabs>
+          <IonRouterOutlet>
+            <Route exact path="/tabs/home">
+              <Home
+                totalTodos={summary.totalTodos}
+                completedTodos={summary.completedTodos}
+                totalNotes={summary.totalNotes}
+              />
+            </Route>
+            <Route exact path="/tabs/todos">
+              <Todos todos={todos} setTodos={setTodos} />
+            </Route>
+            <Route exact path="/tabs/notes">
+              <Notes notes={notes} setNotes={setNotes} />
+            </Route>
+
+            <Route exact path="/tabs">
+              <Redirect to="/tabs/home" />
+            </Route>
+            <Route exact path="/">
+              <Redirect to="/tabs/home" />
+            </Route>
+          </IonRouterOutlet>
+
+          <IonTabBar slot="bottom">
+            <IonTabButton tab="home" href="/tabs/home">
+              <IonIcon aria-hidden="true" icon={homeOutline} />
+              <IonLabel>Home</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="todos" href="/tabs/todos">
+              <IonIcon aria-hidden="true" icon={checkboxOutline} />
+              <IonLabel>Todos</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="notes" href="/tabs/notes">
+              <IonIcon aria-hidden="true" icon={documentTextOutline} />
+              <IonLabel>Notes</IonLabel>
+            </IonTabButton>
+          </IonTabBar>
+        </IonTabs>
+      </IonReactRouter>
+    </IonApp>
+  );
+};
+
+export default App;
