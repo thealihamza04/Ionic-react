@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-globals */
 
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v3';
 const APP_SHELL_CACHE = `app-shell-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `runtime-${CACHE_VERSION}`;
 
@@ -57,15 +57,18 @@ self.addEventListener('fetch', (event) => {
 
   const isNavigation = request.mode === 'navigate';
 
-  // SPA navigation: network-first, fallback to cached app shell.
+  // Keep the standalone timetable page independent from the SPA shell.
   if (isNavigation) {
+    if (url.pathname === '/timetable.html') {
+      event.respondWith(
+        fetch(request).catch(() => caches.match('/timetable.html'))
+      );
+      return;
+    }
+
+    // SPA navigation: network-first, fallback to cached app shell.
     event.respondWith(
       fetch(request)
-        .then((response) => {
-          const copy = response.clone();
-          caches.open(APP_SHELL_CACHE).then((cache) => cache.put('/index.html', copy));
-          return response;
-        })
         .catch(() => caches.match('/index.html'))
     );
     return;

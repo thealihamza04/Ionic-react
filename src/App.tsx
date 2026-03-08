@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
@@ -18,6 +18,8 @@ import {
   homeOutline
 } from 'ionicons/icons';
 import Home from './pages/Home';
+import { DAY_LABELS, getLecturesForDay } from './constants/timetable';
+import { loadNotes, loadTodos, saveNotes, saveTodos } from './lib/appStorage';
 import Notes from './pages/Notes';
 import Timetable from './pages/Timetable';
 import Todos from './pages/Todos';
@@ -57,14 +59,56 @@ setupIonicReact();
 export type TodoItem = { id: string; title: string; done: boolean };
 export type NoteItem = { id: string; text: string };
 
+const DEFAULT_TODOS: TodoItem[] = [
+  { id: 't1', title: 'Try adding a todo', done: false },
+  { id: 't2', title: 'Check it off', done: true }
+];
+
+const DEFAULT_NOTES: NoteItem[] = [{ id: 'n1', text: 'Welcome! Add a quick note.' }];
+
 const App: React.FC = () => {
-  const [todos, setTodos] = useState<TodoItem[]>([
-    { id: 't1', title: 'Try adding a todo', done: false },
-    { id: 't2', title: 'Check it off', done: true }
-  ]);
-  const [notes, setNotes] = useState<NoteItem[]>([
-    { id: 'n1', text: 'Welcome! Add a quick note.' }
-  ]);
+  const [todos, setTodos] = useState<TodoItem[]>(DEFAULT_TODOS);
+  const [notes, setNotes] = useState<NoteItem[]>(DEFAULT_NOTES);
+  const [isStorageReady, setIsStorageReady] = useState(false);
+
+  useEffect(() => {
+    let isActive = true;
+
+    Promise.all([loadTodos(), loadNotes()])
+      .then(([storedTodos, storedNotes]) => {
+        if (!isActive) return;
+        setTodos(storedTodos ?? DEFAULT_TODOS);
+        setNotes(storedNotes ?? DEFAULT_NOTES);
+      })
+      .catch(() => {
+        if (!isActive) return;
+        setTodos(DEFAULT_TODOS);
+        setNotes(DEFAULT_NOTES);
+      })
+      .finally(() => {
+        if (isActive) {
+          setIsStorageReady(true);
+        }
+      });
+
+    return () => {
+      isActive = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isStorageReady) return;
+    saveTodos(todos).catch(() => {
+      // Ignore persistence errors and keep in-memory state usable.
+    });
+  }, [isStorageReady, todos]);
+
+  useEffect(() => {
+    if (!isStorageReady) return;
+    saveNotes(notes).catch(() => {
+      // Ignore persistence errors and keep in-memory state usable.
+    });
+  }, [isStorageReady, notes]);
 
   const summary = useMemo(() => {
     const totalTodos = todos.length;
@@ -72,6 +116,10 @@ const App: React.FC = () => {
     const totalNotes = notes.length;
     return { totalTodos, completedTodos, totalNotes };
   }, [notes.length, todos]);
+
+  const todayDay = new Date().getDay();
+  const todayLectures = getLecturesForDay(todayDay);
+  const todayLabel = DAY_LABELS[todayDay] ?? 'Today';
 
   return (
     <IonApp>
@@ -83,6 +131,8 @@ const App: React.FC = () => {
                 totalTodos={summary.totalTodos}
                 completedTodos={summary.completedTodos}
                 totalNotes={summary.totalNotes}
+                todayLabel={todayLabel}
+                todayLectures={todayLectures}
               />
             </Route>
             <Route exact path="/tabs/todos">
