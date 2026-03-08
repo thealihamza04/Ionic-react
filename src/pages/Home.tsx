@@ -36,7 +36,7 @@ const Home: React.FC<HomeProps> = ({ totalTodos, completedTodos, totalNotes }) =
             </IonLabel>
           </IonItem>
           <IonItem>
-            <IonButton expand="block" href="/timetable.html">
+            <IonButton expand="block" routerLink="/tabs/timetable">
               <IonIcon slot="start" icon={calendarOutline} aria-hidden="true" />
               Open timetable
             </IonButton>

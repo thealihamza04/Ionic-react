@@ -11,9 +11,15 @@ import {
   setupIonicReact
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { checkboxOutline, documentTextOutline, homeOutline } from 'ionicons/icons';
+import {
+  calendarOutline,
+  checkboxOutline,
+  documentTextOutline,
+  homeOutline
+} from 'ionicons/icons';
 import Home from './pages/Home';
 import Notes from './pages/Notes';
+import Timetable from './pages/Timetable';
 import Todos from './pages/Todos';
 
 /* Core CSS required for Ionic components to work properly */
@@ -85,6 +91,9 @@ const App: React.FC = () => {
             <Route exact path="/tabs/notes">
               <Notes notes={notes} setNotes={setNotes} />
             </Route>
+            <Route exact path="/tabs/timetable">
+              <Timetable />
+            </Route>
 
             <Route exact path="/tabs">
               <Redirect to="/tabs/home" />
@@ -106,6 +115,10 @@ const App: React.FC = () => {
             <IonTabButton tab="notes" href="/tabs/notes">
               <IonIcon aria-hidden="true" icon={documentTextOutline} />
               <IonLabel>Notes</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="timetable" href="/tabs/timetable">
+              <IonIcon aria-hidden="true" icon={calendarOutline} />
+              <IonLabel>Timetable</IonLabel>
             </IonTabButton>
           </IonTabBar>
         </IonTabs>

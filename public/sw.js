@@ -1,6 +1,6 @@
 /* eslint-disable no-restricted-globals */
 
-const CACHE_VERSION = 'v1';
+const CACHE_VERSION = 'v2';
 const APP_SHELL_CACHE = `app-shell-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `runtime-${CACHE_VERSION}`;
 
@@ -9,6 +9,8 @@ const APP_SHELL_URLS = [
   '/index.html',
   '/manifest.json',
   '/favicon.png',
+  '/icon-192.png',
+  '/icon-512.png',
   '/timetable.html',
   '/timetable.base.css',
   '/timetable.states.css',
