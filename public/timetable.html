@@ -4,669 +4,81 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>My Timetable — Spring 2026</title>
-
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&display=swap"
       rel="stylesheet"
     />
-
     <link rel="stylesheet" href="/timetable.base.css" />
     <link rel="stylesheet" href="/timetable.states.css" />
-    <style>
-      @media (prefers-color-scheme: dark) {
-        :root {
-          --bg: #05060d;
-          --surface: #0f131f;
-          --surface2: #11162b;
-          --border: rgba(255, 255, 255, 0.12);
-          --text-1: #f3f5ff;
-          --text-2: #cbd5f5;
-          --text-3: #94a3b8;
-        }
-
-        body {
-          background: radial-gradient(circle at 20% -10%, rgba(255, 255, 255, 0.08), transparent 32%),
-            radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.05), transparent 38%), #05060d;
-        }
-
-        body::before {
-          opacity: 0.12;
-        }
-
-        .page {
-          background: #05060d;
-        }
-
-        .header,
-        .legend,
-        .ramadan-banner,
-        .day-card,
-        .card,
-        .table-wrap,
-        .tbl-scroll,
-        .mobile-view {
-          background: #0f131f;
-          box-shadow: 0 25px 40px rgba(0, 0, 0, 0.45);
-        }
-
-        .header-text h1,
-        h1 {
-          color: #f3f5ff;
-        }
-
-        .legend .leg-chip {
-          border-color: rgba(255, 255, 255, 0.12);
-        }
-
-        .card,
-        .m-content,
-        .day-card {
-          border-color: rgba(255, 255, 255, 0.08);
-          color: #eef2ff;
-        }
-
-        .bg-panel,
-        .m-slot {
-          background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0));
-        }
-
-        .th-time,
-        .th-day,
-        .t-normal,
-        .t-ramadan {
-          color: #cbd5f5;
-        }
-
-        .ramadan-banner,
-        .legend {
-          border-color: rgba(255, 255, 255, 0.1);
-        }
-      }
-    </style>
   </head>
-
   <body>
     <a href="#main-content" class="skip-link">Skip to timetable</a>
-
     <div class="page">
       <header class="header" role="banner">
         <div class="header-text">
-          <p class="eyebrow" aria-label="Spring 2026 semester at UMT">
-            Spring 2026 &nbsp;·&nbsp; UMT
-          </p>
+          <p class="eyebrow">Spring 2026 &nbsp;·&nbsp; UMT</p>
           <h1>My <em>Timetable</em></h1>
         </div>
-
         <div class="toggle-wrap" role="group" aria-labelledby="toggle-label">
           <p class="toggle-label" id="toggle-label">Timing Mode</p>
           <div class="toggle-pill">
-            <button
-              class="toggle-btn btn-normal"
-              id="btn-normal"
-              aria-pressed="true"
-              onclick="setMode('normal')"
-              title="Switch to normal class timings"
-            >
-              🕐 Normal
-            </button>
-            <button
-              class="toggle-btn btn-ramadan"
-              id="btn-ramadan"
-              aria-pressed="false"
-              onclick="setMode('ramadan')"
-              title="Switch to Ramadan class timings"
-            >
-              🌙 Ramadan
-            </button>
+            <button class="toggle-btn btn-normal" id="btn-normal" aria-pressed="true" onclick="setMode('normal')">🕐 Normal</button>
+            <button class="toggle-btn btn-ramadan" id="btn-ramadan" aria-pressed="false" onclick="setMode('ramadan')">🌙 Ramadan</button>
           </div>
         </div>
       </header>
 
-      <div class="ramadan-banner" role="status" aria-live="polite" aria-atomic="true">
+      <div class="ramadan-banner" role="status" aria-live="polite">
         <span class="banner-icon" aria-hidden="true">🌙</span>
         <div>
           <strong class="banner-strong">Ramadan timings are active</strong>
-          <span class="banner-sub"
-            >Mon–Thu &amp; Sat: all slots shifted earlier &nbsp;·&nbsp; Friday: special
-            timings with Jumma break</span
-          >
+          <span class="banner-sub">Mon–Thu &amp; Sat: all slots shifted earlier &nbsp;·&nbsp; Friday: special timings with Jumma break</span>
         </div>
       </div>
 
       <nav class="legend" aria-label="Course colour legend">
-        <div
-          class="leg-chip"
-          data-filter="ai"
-          tabindex="0"
-          role="button"
-          aria-label="Highlight Artificial Intelligence"
-        >
-          <div class="leg-dot" style="background: var(--c-ai)" aria-hidden="true"></div>
-          CC371 · AI
-        </div>
-        <div
-          class="leg-chip"
-          data-filter="nlp"
-          tabindex="0"
-          role="button"
-          aria-label="Highlight Natural Language Processing"
-        >
-          <div class="leg-dot" style="background: var(--c-nlp)" aria-hidden="true"></div>
-          CS438 · NLP
-        </div>
-        <div
-          class="leg-chip"
-          data-filter="sim"
-          tabindex="0"
-          role="button"
-          aria-label="Highlight Simulation and Modeling"
-        >
-          <div class="leg-dot" style="background: var(--c-sim)" aria-hidden="true"></div>
-          IT3016 · Simulation
-        </div>
-        <div
-          class="leg-chip"
-          data-filter="pp"
-          tabindex="0"
-          role="button"
-          aria-label="Highlight Professional Practices"
-        >
-          <div class="leg-dot" style="background: var(--c-pp)" aria-hidden="true"></div>
-          HU4092 · Practices
-        </div>
-        <div
-          class="leg-chip"
-          data-filter="dp"
-          tabindex="0"
-          role="button"
-          aria-label="Highlight Design Patterns"
-        >
-          <div class="leg-dot" style="background: var(--c-dp)" aria-hidden="true"></div>
-          SE480 · Design Patterns
-        </div>
+        <div class="leg-chip" data-filter="ai" tabindex="0" role="button"><div class="leg-dot" style="background: var(--c-ai)"></div>CS4152 · DLNN</div>
+        <div class="leg-chip" data-filter="nlp" tabindex="0" role="button"><div class="leg-dot" style="background: var(--c-nlp)"></div>CS438 · NLP</div>
+        <div class="leg-chip" data-filter="sim" tabindex="0" role="button"><div class="leg-dot" style="background: var(--c-sim)"></div>IT3016 · Simulation</div>
+        <div class="leg-chip" data-filter="pp" tabindex="0" role="button"><div class="leg-dot" style="background: var(--c-pp)"></div>HU201 · Practices</div>
       </nav>
 
-      <main id="main-content" role="main">
-        <div class="table-wrap" aria-label="Weekly timetable grid">
+      <main id="main-content" class="desktop-main">
+        <div class="table-wrap">
           <div class="tbl-scroll">
             <table role="grid" aria-label="Class schedule">
-              <caption class="sr-only">
-                Weekly class schedule showing courses by day and time slot
-              </caption>
               <thead>
                 <tr>
-                  <th class="th-day" scope="col">Day</th>
-                  <th class="th-time" scope="col">
-                    <span class="t-normal">08:00 – 09:15 AM</span>
-                    <span class="t-ramadan">08:00 – 08:55 AM</span>
-                  </th>
-                  <th class="th-time" scope="col">
-                    <span class="t-normal">09:30 – 10:45 AM</span>
-                    <span class="t-ramadan">09:00 – 09:55 AM</span>
-                  </th>
-                  <th class="th-time" scope="col">
-                    <span class="t-normal">11:00 AM – 12:15 PM</span>
-                    <span class="t-ramadan">10:00 – 10:55 AM</span>
-                  </th>
-                  <th class="th-time" scope="col">
-                    <span class="t-normal">02:00 – 03:15 PM</span>
-                    <span class="t-ramadan">12:00 – 12:55 PM</span>
-                  </th>
+                  <th class="th-day">Day</th>
+                  <th class="th-time"><span class="t-normal">08:00 – 09:15 AM</span><span class="t-ramadan">08:00 – 08:55 AM</span></th>
+                  <th class="th-time"><span class="t-normal">09:30 – 10:45 AM</span><span class="t-ramadan">09:00 – 09:55 AM</span></th>
+                  <th class="th-time"><span class="t-normal">11:00 AM – 12:15 PM</span><span class="t-ramadan">10:00 – 10:55 AM</span></th>
+                  <th class="th-time"><span class="t-normal">02:00 – 03:15 PM</span><span class="t-ramadan">12:00 – 12:55 PM</span></th>
                 </tr>
               </thead>
               <tbody>
-                <tr data-day="1">
-                  <td class="td-day" scope="row">Mon</td>
-                  <td class="td-empty" aria-label="No class"></td>
-                  <td aria-label="Simulation and Modeling, 9:30 to 10:45">
-                    <div class="card sim" role="article">
-                      <div class="card-code">IT3016 · W1</div>
-                      <div class="card-name">Simulation &amp; Modeling</div>
-                      <div class="card-meta">SST1-705B &nbsp;·&nbsp; Ateeqa Naseer</div>
-                      <a
-                        class="card-email"
-                        href="/cdn-cgi/l/email-protection#97f6e3f2f2e6f6b9f9f6e4f2f2e5d7e2fae3b9f2f3e2b9e7fc"
-                        aria-label="Email Ateeqa Naseer"
-                        ><span
-                          class="__cf_email__"
-                          data-cfemail="f6978293938797d8989785939384b6839b82d8939283d8869d"
-                          >[email&#160;protected]</span
-                        ></a
-                      >
-                    </div>
-                  </td>
-                  <td class="td-empty" aria-label="No class"></td>
-                  <td class="td-empty" aria-label="No class"></td>
-                </tr>
-
-                <tr data-day="2">
-                  <td class="td-day" scope="row">Tue</td>
-                  <td class="td-empty" aria-label="No class"></td>
-                  <td class="td-empty" aria-label="No class"></td>
-                  <td aria-label="Design Pattern and Refactoring, 11:00 to 12:15">
-                    <div class="card dp" role="article">
-                      <div class="card-code">SE480 · W2</div>
-                      <div class="card-name">Design Pattern &amp; Refactoring</div>
-                      <div class="card-meta">Dr. Nosheen Qamar</div>
-                      <a
-                        class="card-email"
-                        href="/cdn-cgi/l/email-protection#315f5e425954545f1f40505c504371445c451f5455441f415a"
-                        aria-label="Email Dr. Nosheen Qamar"
-                        ><span
-                          class="__cf_email__"
-                          data-cfemail="177978647f7272793966767a766557627a633972736239677c"
-                          >[email&#160;protected]</span
-                        ></a
-                      >
-                    </div>
-                  </td>
-                  <td class="td-empty" aria-label="No class"></td>
-                </tr>
-
-                <tr data-day="3">
-                  <td class="td-day" scope="row">Wed</td>
-                  <td>
-                    <div class="card nlp" role="article">
-                      <div class="card-code">CS438 · W1</div>
-                      <div class="card-name">Natural Language Processing</div>
-                      <div class="card-meta">SST1-705B &nbsp;·&nbsp; Waqar Ashiq</div>
-                      <a
-                        class="card-email"
-                        href="/cdn-cgi/l/email-protection#8ef9efffeffca0effde6e7ffcefbe3faa0ebeafba0fee5"
-                        aria-label="Email Waqar Ashiq"
-                        ><span
-                          class="__cf_email__"
-                          data-cfemail="1562746474673b74667d7c64556078613b7071603b657e"
-                          >[email&#160;protected]</span
-                        ></a
-                      >
-                    </div>
-                  </td>
-                  <td>
-                    <div class="card nlp" role="article">
-                      <div class="card-code">CS438 · W1</div>
-                      <div class="card-name">Natural Language Processing</div>
-                      <div class="card-meta">SST1-705B &nbsp;·&nbsp; Waqar Ashiq</div>
-                      <a
-                        class="card-email"
-                        href="/cdn-cgi/l/email-protection#8ff8eefeeefda1eefce7e6fecffae2fba1eaebfaa1ffe4"
-                        aria-label="Email Waqar Ashiq"
-                        ><span
-                          class="__cf_email__"
-                          data-cfemail="b1c6d0c0d0c39fd0c2d9d8c0f1c4dcc59fd4d5c49fc1da"
-                          >[email&#160;protected]</span
-                        ></a
-                      >
-                    </div>
-                  </td>
-                  <td>
-                    <div class="card pp" role="article">
-                      <div class="card-code">HU4092 · W2</div>
-                      <div class="card-name">Professional Practices</div>
-                      <div class="card-meta">SST2-1303 &nbsp;·&nbsp; Shama Sadaqat</div>
-                      <a
-                        class="card-email"
-                        href="/cdn-cgi/l/email-protection#5620656466676516233b227833322378263d"
-                        aria-label="Email Shama Sadaqat"
-                        ><span
-                          class="__cf_email__"
-                          data-cfemail="2254111012131162574f560c4746570c5249"
-                          >[email&#160;protected]</span
-                        ></a
-                      >
-                    </div>
-                  </td>
-                  <td>
-                    <div class="card ai" role="article">
-                      <div class="card-code">CC371 · W5</div>
-                      <div class="card-name">Artificial Intelligence</div>
-                      <div class="card-meta">Faculty TBA</div>
-                      <span class="no-email">Email not yet assigned</span>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr data-day="4">
-                  <td class="td-day" scope="row">Thu</td>
-                  <td class="td-empty" aria-label="No class"></td>
-                  <td>
-                    <div class="card sim" role="article">
-                      <div class="card-code">IT3016 · W1</div>
-                      <div class="card-name">Simulation &amp; Modeling</div>
-                      <div class="card-meta">SST1-705B &nbsp;·&nbsp; Ateeqa Naseer</div>
-                      <a
-                        class="card-email"
-                        href="/cdn-cgi/l/email-protection#84e5f0e1e1f5e5aaeae5f7e1e1f6c4f1e9f0aae1e0f1aaf4ef"
-                        aria-label="Email Ateeqa Naseer"
-                        ><span
-                          class="__cf_email__"
-                          data-cfemail="563722333327377838372533332416233b227833322378263d"
-                          >[email&#160;protected]</span
-                        ></a
-                      >
-                    </div>
-                  </td>
-                  <td class="td-empty" aria-label="No class"></td>
-                  <td class="td-empty" aria-label="No class"></td>
-                </tr>
-
-                <tr data-day="5">
-                  <td class="td-day" scope="row">Fri</td>
-                  <td class="td-empty" aria-label="No class"></td>
-                  <td class="td-empty" aria-label="No class"></td>
-                  <td>
-                    <div class="card dp" role="article">
-                      <div class="card-code">SE480 · W2</div>
-                      <div class="card-name">Design Pattern &amp; Refactoring</div>
-                      <div class="card-meta">
-                        <span class="t-normal">Dr. Nosheen Qamar</span>
-                        <span class="t-ramadan">10:00–10:55 AM · Dr. Nosheen Qamar</span>
-                      </div>
-                      <a
-                        class="card-email"
-                        href="/cdn-cgi/l/email-protection#96f8f9e5fef3f3f8b8e7f7fbf7e4d6e3fbe2b8f3f2e3b8e6fd"
-                        ><span
-                          class="__cf_email__"
-                          data-cfemail="0866677b606d6d6626796965697a487d657c266d6c7d267863"
-                          >[email&#160;protected]</span
-                        ></a
-                      >
-                    </div>
-                  </td>
-                  <td>
-                    <div class="card ai" role="article">
-                      <div class="card-code">CC371 · W5</div>
-                      <div class="card-name">Artificial Intelligence</div>
-                      <div class="card-meta">
-                        <span class="t-normal">Faculty TBA</span>
-                        <span class="t-ramadan">11:00–11:55 AM · After Jumma ☪</span>
-                      </div>
-                      <span class="no-email">Email not yet assigned</span>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr data-day="6">
-                  <td class="td-day" scope="row">Sat</td>
-                  <td class="td-empty" aria-label="No class"></td>
-                  <td class="td-empty" aria-label="No class"></td>
-                  <td>
-                    <div class="card pp" role="article">
-                      <div class="card-code">HU4092 · W2</div>
-                      <div class="card-name">Professional Practices</div>
-                      <div class="card-meta">SST2-1303 &nbsp;·&nbsp; Shama Sadaqat</div>
-                      <a
-                        class="card-email"
-                        href="/cdn-cgi/l/email-protection#85f3b6b7b5b4b6c5f0e8f1abe0e1f0abf5ee"
-                        ><span
-                          class="__cf_email__"
-                          data-cfemail="3f490c0d0f0e0c7f4a524b115a5b4a114f54"
-                          >[email&#160;protected]</span
-                        ></a
-                      >
-                    </div>
-                  </td>
-                  <td class="td-empty" aria-label="No class"></td>
-                </tr>
+                <tr data-day="1"><td class="td-day">Mon</td><td><div class="card pp"><div class="card-code">HU201 · W5</div><div class="card-name">Professional Practices</div><div class="card-meta">SST1-705A · Dr. Abdul Ghaffar</div><a class="card-email" href="mailto:abdul.ghaffar@umt.edu.pk">abdul.ghaffar@umt.edu.pk</a></div></td><td><div class="card sim"><div class="card-code">IT3016 · W1</div><div class="card-name">Simulation and Modeling</div><div class="card-meta">SST1-705B · Ateeqa Naseer</div><a class="card-email" href="mailto:ateeqa.naseer@umt.edu.pk">ateeqa.naseer@umt.edu.pk</a></div></td><td class="td-empty"></td><td class="td-empty"></td></tr>
+                <tr data-day="2"><td class="td-day">Tue</td><td class="td-empty"></td><td class="td-empty"></td><td class="td-empty"></td><td class="td-empty"></td></tr>
+                <tr data-day="3"><td class="td-day">Wed</td><td><div class="card nlp"><div class="card-code">CS438 · W1</div><div class="card-name">Natural Language Processing</div><div class="card-meta">SST1-705B · Waqar Ashiq</div><a class="card-email" href="mailto:waqar.ashiq@umt.edu.pk">waqar.ashiq@umt.edu.pk</a></div></td><td><div class="card nlp"><div class="card-code">CS438 · W1</div><div class="card-name">Natural Language Processing</div><div class="card-meta">SST1-705B · Waqar Ashiq</div><a class="card-email" href="mailto:waqar.ashiq@umt.edu.pk">waqar.ashiq@umt.edu.pk</a></div></td><td class="td-empty"></td><td class="td-empty"></td></tr>
+                <tr data-day="4"><td class="td-day">Thu</td><td><div class="card pp"><div class="card-code">HU201 · W5</div><div class="card-name">Professional Practices</div><div class="card-meta">SST1-705A · Dr. Abdul Ghaffar</div><a class="card-email" href="mailto:abdul.ghaffar@umt.edu.pk">abdul.ghaffar@umt.edu.pk</a></div></td><td><div class="card sim"><div class="card-code">IT3016 · W1</div><div class="card-name">Simulation and Modeling</div><div class="card-meta">SST1-705B · Ateeqa Naseer</div><a class="card-email" href="mailto:ateeqa.naseer@umt.edu.pk">ateeqa.naseer@umt.edu.pk</a></div></td><td class="td-empty"></td><td class="td-empty"></td></tr>
+                <tr data-day="5"><td class="td-day">Fri</td><td><div class="card ai"><div class="card-code">CS4152 · W1</div><div class="card-name">Deep Learning and Neural Networks</div><div class="card-meta">SST2-702 · Muhammad Asif Subhani</div><a class="card-email" href="mailto:asif.subhani@umt.edu.pk">asif.subhani@umt.edu.pk</a></div></td><td><div class="card ai"><div class="card-code">CS4152 · W1</div><div class="card-name">Deep Learning and Neural Networks</div><div class="card-meta">SST2-702 · Muhammad Asif Subhani</div><a class="card-email" href="mailto:asif.subhani@umt.edu.pk">asif.subhani@umt.edu.pk</a></div></td><td class="td-empty"></td><td class="td-empty"></td></tr>
+                <tr data-day="6"><td class="td-day">Sat</td><td class="td-empty"></td><td class="td-empty"></td><td class="td-empty"></td><td class="td-empty"></td></tr>
               </tbody>
             </table>
           </div>
         </div>
-
-        <div class="mobile-view" aria-label="Daily class cards">
-          <article class="day-card" data-day="1" aria-label="Monday classes">
-            <div class="day-card-header">
-              <span class="day-label"
-                >Monday <span class="today-badge" aria-label="Today">Today</span></span
-              >
-              <span class="day-badge" aria-label="1 class today">1 class</span>
-            </div>
-            <div class="m-slot">
-              <div class="m-time" aria-hidden="true">
-                <span class="t-start t-normal">9:30</span>
-                <span class="t-start t-ramadan">9:00</span>
-                <span class="t-end t-normal">10:45 AM</span>
-                <span class="t-end t-ramadan">9:55 AM</span>
-              </div>
-              <div class="m-content sim">
-                <div class="m-code">IT3016 · Section W1</div>
-                <div class="m-name">Simulation &amp; Modeling</div>
-                <div class="m-meta">SST1-705B &nbsp;·&nbsp; Ateeqa Naseer</div>
-                <a
-                  class="m-email"
-                  href="/cdn-cgi/l/email-protection#046570616175652a6a6577616176447169702a6160712a746f"
-                  ><span
-                    class="__cf_email__"
-                    data-cfemail="f2938697978393dc9c9381979780b2879f86dc979687dc8299"
-                    >[email&#160;protected]</span
-                  ></a
-                >
-              </div>
-            </div>
-          </article>
-
-          <article class="day-card" data-day="2" aria-label="Tuesday classes">
-            <div class="day-card-header">
-              <span class="day-label">Tuesday <span class="today-badge">Today</span></span>
-              <span class="day-badge">1 class</span>
-            </div>
-            <div class="m-slot">
-              <div class="m-time" aria-hidden="true">
-                <span class="t-start t-normal">11:00</span>
-                <span class="t-start t-ramadan">10:00</span>
-                <span class="t-end t-normal">12:15 PM</span>
-                <span class="t-end t-ramadan">10:55 AM</span>
-              </div>
-              <div class="m-content dp">
-                <div class="m-code">SE480 · Section W2</div>
-                <div class="m-name">Design Pattern &amp; Refactoring</div>
-                <div class="m-meta">Dr. Nosheen Qamar</div>
-                <a
-                  class="m-email"
-                  href="/cdn-cgi/l/email-protection#ec82839f84898982c29d8d818d9eac998198c2898899c29c87"
-                  ><span
-                    class="__cf_email__"
-                    data-cfemail="b896978b909d9d96d6899995998ab88d958cd69d9c8dd68893"
-                    >[email&#160;protected]</span
-                  ></a
-                >
-              </div>
-            </div>
-          </article>
-
-          <article class="day-card" data-day="3" aria-label="Wednesday classes">
-            <div class="day-card-header">
-              <span class="day-label">Wednesday <span class="today-badge">Today</span></span>
-              <span class="day-badge">4 classes</span>
-            </div>
-            <div class="m-slot">
-              <div class="m-time" aria-hidden="true">
-                <span class="t-start t-normal">8:00</span>
-                <span class="t-start t-ramadan">8:00</span>
-                <span class="t-end t-normal">9:15 AM</span>
-                <span class="t-end t-ramadan">8:55 AM</span>
-              </div>
-              <div class="m-content nlp">
-                <div class="m-code">CS438 · Section W1</div>
-                <div class="m-name">Natural Language Processing</div>
-                <div class="m-meta">SST1-705B &nbsp;·&nbsp; Waqar Ashiq</div>
-                <a
-                  class="m-email"
-                  href="/cdn-cgi/l/email-protection#0d7a6c7c6c7f236c7e65647c4d78607923686978237d66"
-                  ><span
-                    class="__cf_email__"
-                    data-cfemail="eb9c8a9a8a99c58a9883829aab9e869fc58e8f9ec59b80"
-                    >[email&#160;protected]</span
-                  ></a
-                >
-              </div>
-            </div>
-            <div class="m-slot">
-              <div class="m-time" aria-hidden="true">
-                <span class="t-start t-normal">9:30</span>
-                <span class="t-start t-ramadan">9:00</span>
-                <span class="t-end t-normal">10:45 AM</span>
-                <span class="t-end t-ramadan">9:55 AM</span>
-              </div>
-              <div class="m-content nlp">
-                <div class="m-code">CS438 · Section W1</div>
-                <div class="m-name">Natural Language Processing</div>
-                <div class="m-meta">SST1-705B &nbsp;·&nbsp; Waqar Ashiq</div>
-                <a
-                  class="m-email"
-                  href="/cdn-cgi/l/email-protection#87f0e6f6e6f5a9e6f4efeef6c7f2eaf3a9e2e3f2a9f7ec"
-                  ><span
-                    class="__cf_email__"
-                    data-cfemail="2f584e5e4e5d014e5c47465e6f5a425b014a4b5a015f44"
-                    >[email&#160;protected]</span
-                  ></a
-                >
-              </div>
-            </div>
-            <div class="m-slot">
-              <div class="m-time" aria-hidden="true">
-                <span class="t-start t-normal">11:00</span>
-                <span class="t-start t-ramadan">10:00</span>
-                <span class="t-end t-normal">12:15 PM</span>
-                <span class="t-end t-ramadan">10:55 AM</span>
-              </div>
-              <div class="m-content pp">
-                <div class="m-code">HU4092 · Section W2</div>
-                <div class="m-name">Professional Practices</div>
-                <div class="m-meta">SST2-1303 &nbsp;·&nbsp; Shama Sadaqat</div>
-                <a
-                  class="m-email"
-                  href="/cdn-cgi/l/email-protection#f88ecbcac8c9cbb88d958cd69d9c8dd68893"
-                  ><span
-                    class="__cf_email__"
-                    data-cfemail="1761242527262457627a633972736239677c"
-                    >[email&#160;protected]</span
-                  ></a
-                >
-              </div>
-            </div>
-            <div class="m-slot">
-              <div class="m-time" aria-hidden="true">
-                <span class="t-start t-normal">2:00</span>
-                <span class="t-start t-ramadan">12:00</span>
-                <span class="t-end t-normal">3:15 PM</span>
-                <span class="t-end t-ramadan">12:55 PM</span>
-              </div>
-              <div class="m-content ai">
-                <div class="m-code">CC371 · Section W5</div>
-                <div class="m-name">Artificial Intelligence</div>
-                <div class="m-meta">Faculty TBA</div>
-                <span class="m-no-email">Email not yet assigned</span>
-              </div>
-            </div>
-          </article>
-
-          <article class="day-card" data-day="4" aria-label="Thursday classes">
-            <div class="day-card-header">
-              <span class="day-label">Thursday <span class="today-badge">Today</span></span>
-              <span class="day-badge">1 class</span>
-            </div>
-            <div class="m-slot">
-              <div class="m-time" aria-hidden="true">
-                <span class="t-start t-normal">9:30</span>
-                <span class="t-start t-ramadan">9:00</span>
-                <span class="t-end t-normal">10:45 AM</span>
-                <span class="t-end t-ramadan">9:55 AM</span>
-              </div>
-              <div class="m-content sim">
-                <div class="m-code">IT3016 · Section W1</div>
-                <div class="m-name">Simulation &amp; Modeling</div>
-                <div class="m-meta">SST1-705B &nbsp;·&nbsp; Ateeqa Naseer</div>
-                <a
-                  class="m-email"
-                  href="/cdn-cgi/l/email-protection#39584d5c5c48581757584a5c5c4b794c544d175c5d4c174952"
-                  ><span
-                    class="__cf_email__"
-                    data-cfemail="721306171703135c1c130117170032071f065c1716075c0219"
-                    >[email&#160;protected]</span
-                  ></a
-                >
-              </div>
-            </div>
-          </article>
-
-          <article class="day-card" data-day="5" aria-label="Friday classes">
-            <div class="day-card-header">
-              <span class="day-label">Friday <span class="today-badge">Today</span></span>
-              <span class="day-badge">2 classes</span>
-            </div>
-            <div class="m-slot">
-              <div class="m-time" aria-hidden="true">
-                <span class="t-start t-normal">11:00</span>
-                <span class="t-start t-ramadan">10:00</span>
-                <span class="t-end t-normal">12:15 PM</span>
-                <span class="t-end t-ramadan">10:55 AM</span>
-              </div>
-              <div class="m-content dp">
-                <div class="m-code">SE480 · Section W2</div>
-                <div class="m-name">Design Pattern &amp; Refactoring</div>
-                <div class="m-meta">Dr. Nosheen Qamar</div>
-                <a
-                  class="m-email"
-                  href="/cdn-cgi/l/email-protection#c9a7a6baa1acaca7e7b8a8a4a8bb89bca4bde7acadbce7b9a2"
-                  ><span
-                    class="__cf_email__"
-                    data-cfemail="274948544f4242490956464a465567524a530942435209574c"
-                    >[email&#160;protected]</span
-                  ></a
-                >
-              </div>
-            </div>
-            <div class="m-slot">
-              <div class="m-time" aria-hidden="true">
-                <span class="t-start t-normal">2:00</span>
-                <span class="t-start t-ramadan">11:00</span>
-                <span class="t-end t-normal">3:15 PM</span>
-                <span class="t-end t-ramadan">11:55 AM</span>
-              </div>
-              <div class="m-content ai">
-                <div class="m-code">CC371 · Section W5</div>
-                <div class="m-name">Artificial Intelligence</div>
-                <div class="m-meta">Faculty TBA</div>
-                <span class="m-no-email">Email not yet assigned</span>
-                <div class="m-ramadan-note">☪ After Jumma break</div>
-              </div>
-            </div>
-          </article>
-
-          <article class="day-card" data-day="6" aria-label="Saturday classes">
-            <div class="day-card-header">
-              <span class="day-label">Saturday <span class="today-badge">Today</span></span>
-              <span class="day-badge">1 class</span>
-            </div>
-            <div class="m-slot">
-              <div class="m-time" aria-hidden="true">
-                <span class="t-start t-normal">11:00</span>
-                <span class="t-start t-ramadan">10:00</span>
-                <span class="t-end t-normal">12:15 PM</span>
-                <span class="t-end t-ramadan">10:55 AM</span>
-              </div>
-              <div class="m-content pp">
-                <div class="m-code">HU4092 · Section W2</div>
-                <div class="m-name">Professional Practices</div>
-                <div class="m-meta">SST2-1303 &nbsp;·&nbsp; Shama Sadaqat</div>
-                <a
-                  class="m-email"
-                  href="/cdn-cgi/l/email-protection#95e3a6a7a5a4a6d5e0f8e1bbf0f1e0bbe5fe"
-                  ><span
-                    class="__cf_email__"
-                    data-cfemail="2b5d18191b1a186b5e465f054e4f5e055b40"
-                    >[email&#160;protected]</span
-                  ></a
-                >
-              </div>
-            </div>
-          </article>
-        </div>
       </main>
-    </div>
 
+      <div class="mobile-view" aria-label="Daily class cards">
+        <article class="day-card" data-day="1"><div class="day-card-header"><span class="day-label">Monday <span class="today-badge">Today</span></span><span class="day-badge">2 classes</span></div><div class="m-slot"><div class="m-time"><span class="t-start t-normal">8:00</span><span class="t-start t-ramadan">8:00</span><span class="t-end t-normal">9:15 AM</span><span class="t-end t-ramadan">8:55 AM</span></div><div class="m-content pp"><div class="m-code">HU201 · W5</div><div class="m-name">Professional Practices</div><div class="m-meta">SST1-705A · Dr. Abdul Ghaffar</div><a class="m-email" href="mailto:abdul.ghaffar@umt.edu.pk">abdul.ghaffar@umt.edu.pk</a></div></div><div class="m-slot"><div class="m-time"><span class="t-start t-normal">9:30</span><span class="t-start t-ramadan">9:00</span><span class="t-end t-normal">10:45 AM</span><span class="t-end t-ramadan">9:55 AM</span></div><div class="m-content sim"><div class="m-code">IT3016 · W1</div><div class="m-name">Simulation and Modeling</div><div class="m-meta">SST1-705B · Ateeqa Naseer</div><a class="m-email" href="mailto:ateeqa.naseer@umt.edu.pk">ateeqa.naseer@umt.edu.pk</a></div></div></article>
+        <article class="day-card" data-day="2"><div class="day-card-header"><span class="day-label">Tuesday <span class="today-badge">Today</span></span><span class="day-badge">0 classes</span></div></article>
+        <article class="day-card" data-day="3"><div class="day-card-header"><span class="day-label">Wednesday <span class="today-badge">Today</span></span><span class="day-badge">2 classes</span></div><div class="m-slot"><div class="m-time"><span class="t-start t-normal">8:00</span><span class="t-start t-ramadan">8:00</span><span class="t-end t-normal">9:15 AM</span><span class="t-end t-ramadan">8:55 AM</span></div><div class="m-content nlp"><div class="m-code">CS438 · W1</div><div class="m-name">Natural Language Processing</div><div class="m-meta">SST1-705B · Waqar Ashiq</div><a class="m-email" href="mailto:waqar.ashiq@umt.edu.pk">waqar.ashiq@umt.edu.pk</a></div></div><div class="m-slot"><div class="m-time"><span class="t-start t-normal">9:30</span><span class="t-start t-ramadan">9:00</span><span class="t-end t-normal">10:45 AM</span><span class="t-end t-ramadan">9:55 AM</span></div><div class="m-content nlp"><div class="m-code">CS438 · W1</div><div class="m-name">Natural Language Processing</div><div class="m-meta">SST1-705B · Waqar Ashiq</div><a class="m-email" href="mailto:waqar.ashiq@umt.edu.pk">waqar.ashiq@umt.edu.pk</a></div></div></article>
+        <article class="day-card" data-day="4"><div class="day-card-header"><span class="day-label">Thursday <span class="today-badge">Today</span></span><span class="day-badge">2 classes</span></div><div class="m-slot"><div class="m-time"><span class="t-start t-normal">8:00</span><span class="t-start t-ramadan">8:00</span><span class="t-end t-normal">9:15 AM</span><span class="t-end t-ramadan">8:55 AM</span></div><div class="m-content pp"><div class="m-code">HU201 · W5</div><div class="m-name">Professional Practices</div><div class="m-meta">SST1-705A · Dr. Abdul Ghaffar</div><a class="m-email" href="mailto:abdul.ghaffar@umt.edu.pk">abdul.ghaffar@umt.edu.pk</a></div></div><div class="m-slot"><div class="m-time"><span class="t-start t-normal">9:30</span><span class="t-start t-ramadan">9:00</span><span class="t-end t-normal">10:45 AM</span><span class="t-end t-ramadan">9:55 AM</span></div><div class="m-content sim"><div class="m-code">IT3016 · W1</div><div class="m-name">Simulation and Modeling</div><div class="m-meta">SST1-705B · Ateeqa Naseer</div><a class="m-email" href="mailto:ateeqa.naseer@umt.edu.pk">ateeqa.naseer@umt.edu.pk</a></div></div></article>
+        <article class="day-card" data-day="5"><div class="day-card-header"><span class="day-label">Friday <span class="today-badge">Today</span></span><span class="day-badge">2 classes</span></div><div class="m-slot"><div class="m-time"><span class="t-start t-normal">8:00</span><span class="t-start t-ramadan">8:00</span><span class="t-end t-normal">9:15 AM</span><span class="t-end t-ramadan">8:55 AM</span></div><div class="m-content ai"><div class="m-code">CS4152 · W1</div><div class="m-name">Deep Learning and Neural Networks</div><div class="m-meta">SST2-702 · Muhammad Asif Subhani</div><a class="m-email" href="mailto:asif.subhani@umt.edu.pk">asif.subhani@umt.edu.pk</a></div></div><div class="m-slot"><div class="m-time"><span class="t-start t-normal">9:30</span><span class="t-start t-ramadan">9:00</span><span class="t-end t-normal">10:45 AM</span><span class="t-end t-ramadan">9:55 AM</span></div><div class="m-content ai"><div class="m-code">CS4152 · W1</div><div class="m-name">Deep Learning and Neural Networks</div><div class="m-meta">SST2-702 · Muhammad Asif Subhani</div><a class="m-email" href="mailto:asif.subhani@umt.edu.pk">asif.subhani@umt.edu.pk</a></div></div></article>
+        <article class="day-card" data-day="6"><div class="day-card-header"><span class="day-label">Saturday <span class="today-badge">Today</span></span><span class="day-badge">0 classes</span></div></article>
+      </div>
+    </div>
     <script src="/timetable.js" defer></script>
   </body>
 </html>
