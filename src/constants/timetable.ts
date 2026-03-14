@@ -12,26 +12,26 @@ export type LectureItem = {
 
 export const TIMETABLE: LectureItem[] = [
   {
+    id: 'mon-hu201',
+    courseCode: 'HU201',
+    section: 'W5',
+    courseName: 'Professional Practices',
+    room: 'SST1-705A',
+    instructor: 'Dr. Abdul Ghaffar',
+    day: 1,
+    normalTime: '8:00 AM - 9:15 AM',
+    ramadanTime: '8:00 AM - 8:55 AM'
+  },
+  {
     id: 'mon-it3016',
     courseCode: 'IT3016',
     section: 'W1',
-    courseName: 'Simulation & Modeling',
+    courseName: 'Simulation and Modeling',
     room: 'SST1-705B',
     instructor: 'Ateeqa Naseer',
     day: 1,
     normalTime: '9:30 AM - 10:45 AM',
     ramadanTime: '9:00 AM - 9:55 AM'
-  },
-  {
-    id: 'tue-se480',
-    courseCode: 'SE480',
-    section: 'W2',
-    courseName: 'Design Pattern & Refactoring',
-    room: '',
-    instructor: 'Dr. Nosheen Qamar',
-    day: 2,
-    normalTime: '11:00 AM - 12:15 PM',
-    ramadanTime: '10:00 AM - 10:55 AM'
   },
   {
     id: 'wed-cs438-1',
@@ -56,32 +56,21 @@ export const TIMETABLE: LectureItem[] = [
     ramadanTime: '9:00 AM - 9:55 AM'
   },
   {
-    id: 'wed-hu4092',
-    courseCode: 'HU4092',
-    section: 'W2',
-    courseName: 'Professional Practices',
-    room: 'SST2-1303',
-    instructor: 'Shama Sadaqat',
-    day: 3,
-    normalTime: '11:00 AM - 12:15 PM',
-    ramadanTime: '10:00 AM - 10:55 AM'
-  },
-  {
-    id: 'wed-cc371',
-    courseCode: 'CC371',
+    id: 'thu-hu201',
+    courseCode: 'HU201',
     section: 'W5',
-    courseName: 'Artificial Intelligence',
-    room: '',
-    instructor: 'Faculty TBA',
-    day: 3,
-    normalTime: '2:00 PM - 3:15 PM',
-    ramadanTime: '12:00 PM - 12:55 PM'
+    courseName: 'Professional Practices',
+    room: 'SST1-705A',
+    instructor: 'Dr. Abdul Ghaffar',
+    day: 4,
+    normalTime: '8:00 AM - 9:15 AM',
+    ramadanTime: '8:00 AM - 8:55 AM'
   },
   {
     id: 'thu-it3016',
     courseCode: 'IT3016',
     section: 'W1',
-    courseName: 'Simulation & Modeling',
+    courseName: 'Simulation and Modeling',
     room: 'SST1-705B',
     instructor: 'Ateeqa Naseer',
     day: 4,
@@ -89,37 +78,26 @@ export const TIMETABLE: LectureItem[] = [
     ramadanTime: '9:00 AM - 9:55 AM'
   },
   {
-    id: 'fri-se480',
-    courseCode: 'SE480',
-    section: 'W2',
-    courseName: 'Design Pattern & Refactoring',
-    room: '',
-    instructor: 'Dr. Nosheen Qamar',
+    id: 'fri-cs4152-1',
+    courseCode: 'CS4152',
+    section: 'W1',
+    courseName: 'Deep Learning and Neural Networks',
+    room: 'SST2-702',
+    instructor: 'Muhammad Asif Subhani',
     day: 5,
-    normalTime: '11:00 AM - 12:15 PM',
-    ramadanTime: '10:00 AM - 10:55 AM'
+    normalTime: '8:00 AM - 9:15 AM',
+    ramadanTime: '8:00 AM - 8:55 AM'
   },
   {
-    id: 'fri-cc371',
-    courseCode: 'CC371',
-    section: 'W5',
-    courseName: 'Artificial Intelligence',
-    room: '',
-    instructor: 'Faculty TBA',
+    id: 'fri-cs4152-2',
+    courseCode: 'CS4152',
+    section: 'W1',
+    courseName: 'Deep Learning and Neural Networks',
+    room: 'SST2-702',
+    instructor: 'Muhammad Asif Subhani',
     day: 5,
-    normalTime: '2:00 PM - 3:15 PM',
-    ramadanTime: '11:00 AM - 11:55 AM'
-  },
-  {
-    id: 'sat-hu4092',
-    courseCode: 'HU4092',
-    section: 'W2',
-    courseName: 'Professional Practices',
-    room: 'SST2-1303',
-    instructor: 'Shama Sadaqat',
-    day: 6,
-    normalTime: '11:00 AM - 12:15 PM',
-    ramadanTime: '10:00 AM - 10:55 AM'
+    normalTime: '9:30 AM - 10:45 AM',
+    ramadanTime: '9:00 AM - 9:55 AM'
   }
 ];
 
