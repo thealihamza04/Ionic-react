@@ -15,7 +15,8 @@ import {
   calendarOutline,
   checkboxOutline,
   documentTextOutline,
-  homeOutline
+  homeOutline,
+  schoolOutline
 } from 'ionicons/icons';
 import Home from './pages/Home';
 import { DAY_LABELS, getLecturesForDay } from './constants/timetable';
@@ -23,6 +24,7 @@ import { loadNotes, loadTodos, saveNotes, saveTodos } from './lib/appStorage';
 import Notes from './pages/Notes';
 import Timetable from './pages/Timetable';
 import Todos from './pages/Todos';
+import AcademicRecord from './pages/AcademicRecord';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -145,6 +147,9 @@ const App: React.FC = () => {
             <Route exact path="/tabs/timetable">
               <Timetable />
             </Route>
+            <Route exact path="/tabs/academic">
+              <AcademicRecord />
+            </Route>
 
             <Route exact path="/tabs">
               <Redirect to="/tabs/home" />
@@ -170,6 +175,10 @@ const App: React.FC = () => {
             <IonTabButton tab="timetable" href="/tabs/timetable">
               <IonIcon aria-hidden="true" icon={calendarOutline} />
               <IonLabel>Timetable</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="academic" href="/tabs/academic">
+              <IonIcon aria-hidden="true" icon={schoolOutline} />
+              <IonLabel>Academic</IonLabel>
             </IonTabButton>
           </IonTabBar>
         </IonTabs>
