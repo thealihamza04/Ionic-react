@@ -58,7 +58,7 @@ const App: React.FC = () => {
   return (
     <IonApp>
       <IonReactRouter>
-        <AppContent 
+        <AppContent
           todayLabel={todayLabel}
           todayLectures={todayLectures}
         />
@@ -72,8 +72,8 @@ type AppContentProps = {
   todayLectures: LectureItem[];
 };
 
-const AppContent: React.FC<AppContentProps> = ({ 
-  todayLabel, todayLectures 
+const AppContent: React.FC<AppContentProps> = ({
+  todayLabel, todayLectures
 }) => {
   const location = useLocation();
 
@@ -103,33 +103,33 @@ const AppContent: React.FC<AppContentProps> = ({
           <Redirect to="/tabs/home" />
         </Route>
       </IonRouterOutlet>
-      
-      <IonTabBar 
-        slot="bottom" 
-        style={{ 
+
+      <IonTabBar
+        slot="bottom"
+        style={{
           '--background': 'var(--app-background)',
           '--border-color': 'var(--app-border)',
           borderTop: '0.5px solid var(--app-border)',
           height: 'calc(60px + env(safe-area-inset-bottom))',
           paddingBottom: 'env(safe-area-inset-bottom)',
           contain: 'none'
-        } as React.CSSProperties}
+        } as { [key: string]: string }}
       >
         <IonTabButton tab="home" href="/tabs/home" style={{ '--color-selected': 'var(--app-primary)' } as React.CSSProperties}>
           <IonIcon aria-hidden="true" icon={location.pathname === '/tabs/home' ? home : homeOutline} style={{ fontSize: '20px' }} />
           <IonLabel style={{ fontSize: '10px', fontWeight: 'var(--font-weight-medium)', marginTop: '2px' }}>Home</IonLabel>
         </IonTabButton>
-        
+
         <IonTabButton tab="announcements" href="/tabs/announcements" style={{ '--color-selected': 'var(--app-primary)' } as React.CSSProperties}>
           <IonIcon aria-hidden="true" icon={location.pathname === '/tabs/announcements' ? megaphone : megaphoneOutline} style={{ fontSize: '20px' }} />
           <IonLabel style={{ fontSize: '10px', fontWeight: 'var(--font-weight-medium)', marginTop: '2px' }}>News</IonLabel>
         </IonTabButton>
-        
+
         <IonTabButton tab="timetable" href="/tabs/timetable" style={{ '--color-selected': 'var(--app-primary)' } as React.CSSProperties}>
           <IonIcon aria-hidden="true" icon={location.pathname === '/tabs/timetable' ? calendar : calendarOutline} style={{ fontSize: '18px' }} />
           <IonLabel style={{ fontSize: '10px', fontWeight: 'var(--font-weight-medium)', marginTop: '2px' }}>Schedule</IonLabel>
         </IonTabButton>
-        
+
         <IonTabButton tab="academic" href="/tabs/academic" style={{ '--color-selected': 'var(--app-primary)' } as React.CSSProperties}>
           <IonIcon aria-hidden="true" icon={location.pathname === '/tabs/academic' ? school : schoolOutline} style={{ fontSize: '20px' }} />
           <IonLabel style={{ fontSize: '10px', fontWeight: 'var(--font-weight-medium)', marginTop: '2px' }}>Hub</IonLabel>
