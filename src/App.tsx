@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { Redirect, Route } from 'react-router-dom';
+import React from 'react';
+import { Redirect, Route, useLocation } from 'react-router-dom';
 import {
   IonApp,
   IonIcon,
@@ -12,18 +12,19 @@ import {
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import {
+  calendar,
   calendarOutline,
-  checkboxOutline,
-  documentTextOutline,
+  home,
   homeOutline,
-  schoolOutline
+  school,
+  schoolOutline,
+  megaphone,
+  megaphoneOutline
 } from 'ionicons/icons';
 import Home from './pages/Home';
-import { DAY_LABELS, getLecturesForDay } from './constants/timetable';
-import { loadNotes, loadTodos, saveNotes, saveTodos } from './lib/appStorage';
-import Notes from './pages/Notes';
+import { DAY_LABELS, getLecturesForDay, LectureItem } from './constants/timetable';
+import Announcements from './pages/Announcements';
 import Timetable from './pages/Timetable';
-import Todos from './pages/Todos';
 import AcademicRecord from './pages/AcademicRecord';
 
 /* Core CSS required for Ionic components to work properly */
@@ -42,84 +43,14 @@ import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
-
-/* import '@ionic/react/css/palettes/dark.always.css'; */
-/* import '@ionic/react/css/palettes/dark.class.css'; */
 import '@ionic/react/css/palettes/dark.system.css';
 
-/* Theme variables */
 /* Theme variables */
 import './theme/variables.css';
 
 setupIonicReact();
 
-export type TodoItem = { id: string; title: string; done: boolean };
-export type NoteItem = { id: string; text: string };
-
-const DEFAULT_TODOS: TodoItem[] = [
-  { id: 't1', title: 'Try adding a todo', done: false },
-  { id: 't2', title: 'Check it off', done: true }
-];
-
-const DEFAULT_NOTES: NoteItem[] = [{ id: 'n1', text: 'Welcome! Add a quick note.' }];
-
 const App: React.FC = () => {
-  const [todos, setTodos] = useState<TodoItem[]>(DEFAULT_TODOS);
-  const [notes, setNotes] = useState<NoteItem[]>(DEFAULT_NOTES);
-  const [isStorageReady, setIsStorageReady] = useState(false);
-
-  useEffect(() => {
-    let isActive = true;
-
-    Promise.all([loadTodos(), loadNotes()])
-      .then(([storedTodos, storedNotes]) => {
-        if (!isActive) return;
-        setTodos(storedTodos ?? DEFAULT_TODOS);
-        setNotes(storedNotes ?? DEFAULT_NOTES);
-      })
-      .catch(() => {
-        if (!isActive) return;
-        setTodos(DEFAULT_TODOS);
-        setNotes(DEFAULT_NOTES);
-      })
-      .finally(() => {
-        if (isActive) {
-          setIsStorageReady(true);
-        }
-      });
-
-    return () => {
-      isActive = false;
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!isStorageReady) return;
-    saveTodos(todos).catch(() => {
-      // Ignore persistence errors and keep in-memory state usable.
-    });
-  }, [isStorageReady, todos]);
-
-  useEffect(() => {
-    if (!isStorageReady) return;
-    saveNotes(notes).catch(() => {
-      // Ignore persistence errors and keep in-memory state usable.
-    });
-  }, [isStorageReady, notes]);
-
-  const summary = useMemo(() => {
-    const totalTodos = todos.length;
-    const completedTodos = todos.filter((t) => t.done).length;
-    const totalNotes = notes.length;
-    return { totalTodos, completedTodos, totalNotes };
-  }, [notes.length, todos]);
-
   const todayDay = new Date().getDay();
   const todayLectures = getLecturesForDay(todayDay);
   const todayLabel = DAY_LABELS[todayDay] ?? 'Today';
@@ -127,63 +58,84 @@ const App: React.FC = () => {
   return (
     <IonApp>
       <IonReactRouter>
-        <IonTabs>
-          <IonRouterOutlet>
-            <Route exact path="/tabs/home">
-              <Home
-                totalTodos={summary.totalTodos}
-                completedTodos={summary.completedTodos}
-                totalNotes={summary.totalNotes}
-                todayLabel={todayLabel}
-                todayLectures={todayLectures}
-              />
-            </Route>
-            <Route exact path="/tabs/todos">
-              <Todos todos={todos} setTodos={setTodos} />
-            </Route>
-            <Route exact path="/tabs/notes">
-              <Notes notes={notes} setNotes={setNotes} />
-            </Route>
-            <Route exact path="/tabs/timetable">
-              <Timetable />
-            </Route>
-            <Route exact path="/tabs/academic">
-              <AcademicRecord />
-            </Route>
-
-            <Route exact path="/tabs">
-              <Redirect to="/tabs/home" />
-            </Route>
-            <Route exact path="/">
-              <Redirect to="/tabs/home" />
-            </Route>
-          </IonRouterOutlet>
-
-          <IonTabBar slot="bottom">
-            <IonTabButton tab="home" href="/tabs/home">
-              <IonIcon aria-hidden="true" icon={homeOutline} />
-              <IonLabel>Home</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="todos" href="/tabs/todos">
-              <IonIcon aria-hidden="true" icon={checkboxOutline} />
-              <IonLabel>Todos</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="notes" href="/tabs/notes">
-              <IonIcon aria-hidden="true" icon={documentTextOutline} />
-              <IonLabel>Notes</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="timetable" href="/tabs/timetable">
-              <IonIcon aria-hidden="true" icon={calendarOutline} />
-              <IonLabel>Timetable</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="academic" href="/tabs/academic">
-              <IonIcon aria-hidden="true" icon={schoolOutline} />
-              <IonLabel>Academic</IonLabel>
-            </IonTabButton>
-          </IonTabBar>
-        </IonTabs>
+        <AppContent 
+          todayLabel={todayLabel}
+          todayLectures={todayLectures}
+        />
       </IonReactRouter>
     </IonApp>
+  );
+};
+
+type AppContentProps = {
+  todayLabel: string;
+  todayLectures: LectureItem[];
+};
+
+const AppContent: React.FC<AppContentProps> = ({ 
+  todayLabel, todayLectures 
+}) => {
+  const location = useLocation();
+
+  return (
+    <IonTabs>
+      <IonRouterOutlet>
+        <Route exact path="/tabs/home">
+          <Home
+            todayLabel={todayLabel}
+            todayLectures={todayLectures}
+          />
+        </Route>
+        <Route exact path="/tabs/announcements">
+          <Announcements />
+        </Route>
+        <Route exact path="/tabs/timetable">
+          <Timetable />
+        </Route>
+        <Route exact path="/tabs/academic">
+          <AcademicRecord />
+        </Route>
+
+        <Route exact path="/tabs">
+          <Redirect to="/tabs/home" />
+        </Route>
+        <Route exact path="/">
+          <Redirect to="/tabs/home" />
+        </Route>
+      </IonRouterOutlet>
+      
+      <IonTabBar 
+        slot="bottom" 
+        style={{ 
+          '--background': 'var(--app-background)',
+          '--border-color': 'var(--app-border)',
+          borderTop: '0.5px solid var(--app-border)',
+          height: 'calc(60px + env(safe-area-inset-bottom))',
+          paddingBottom: 'env(safe-area-inset-bottom)',
+          contain: 'none'
+        } as React.CSSProperties}
+      >
+        <IonTabButton tab="home" href="/tabs/home" style={{ '--color-selected': 'var(--app-primary)' } as React.CSSProperties}>
+          <IonIcon aria-hidden="true" icon={location.pathname === '/tabs/home' ? home : homeOutline} style={{ fontSize: '20px' }} />
+          <IonLabel style={{ fontSize: '10px', fontWeight: 'var(--font-weight-medium)', marginTop: '2px' }}>Home</IonLabel>
+        </IonTabButton>
+        
+        <IonTabButton tab="announcements" href="/tabs/announcements" style={{ '--color-selected': 'var(--app-primary)' } as React.CSSProperties}>
+          <IonIcon aria-hidden="true" icon={location.pathname === '/tabs/announcements' ? megaphone : megaphoneOutline} style={{ fontSize: '20px' }} />
+          <IonLabel style={{ fontSize: '10px', fontWeight: 'var(--font-weight-medium)', marginTop: '2px' }}>News</IonLabel>
+        </IonTabButton>
+        
+        <IonTabButton tab="timetable" href="/tabs/timetable" style={{ '--color-selected': 'var(--app-primary)' } as React.CSSProperties}>
+          <IonIcon aria-hidden="true" icon={location.pathname === '/tabs/timetable' ? calendar : calendarOutline} style={{ fontSize: '18px' }} />
+          <IonLabel style={{ fontSize: '10px', fontWeight: 'var(--font-weight-medium)', marginTop: '2px' }}>Schedule</IonLabel>
+        </IonTabButton>
+        
+        <IonTabButton tab="academic" href="/tabs/academic" style={{ '--color-selected': 'var(--app-primary)' } as React.CSSProperties}>
+          <IonIcon aria-hidden="true" icon={location.pathname === '/tabs/academic' ? school : schoolOutline} style={{ fontSize: '20px' }} />
+          <IonLabel style={{ fontSize: '10px', fontWeight: 'var(--font-weight-medium)', marginTop: '2px' }}>Hub</IonLabel>
+        </IonTabButton>
+      </IonTabBar>
+    </IonTabs>
   );
 };
 

@@ -2,10 +2,6 @@ import React, { useState } from 'react';
 import {
   IonAlert,
   IonButton,
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardTitle,
   IonContent,
   IonHeader,
   IonIcon,
@@ -14,9 +10,14 @@ import {
   IonList,
   IonPage,
   IonTitle,
-  IonToolbar
+  IonToolbar,
+  IonFab,
+  IonFabButton,
+  IonItemSliding,
+  IonItemOptions,
+  IonItemOption
 } from '@ionic/react';
-import { addOutline, trashOutline } from 'ionicons/icons';
+import { addOutline, trashOutline, documentTextOutline, createOutline } from 'ionicons/icons';
 import type { NoteItem } from '../App';
 
 type NotesProps = {
@@ -40,57 +41,114 @@ const Notes: React.FC<NotesProps> = ({ notes, setNotes }) => {
 
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Notes</IonTitle>
+      <IonHeader className="ion-no-border">
+        <IonToolbar style={{ '--padding-top': 'var(--space-lg)' } as React.CSSProperties}>
+          <IonTitle style={{ 
+            fontSize: 'var(--font-size-xl)', 
+            fontWeight: 'var(--font-weight-semibold)',
+            color: 'var(--app-text-main)'
+          }}>Notes</IonTitle>
         </IonToolbar>
       </IonHeader>
 
-      <IonContent fullscreen>
-        <IonList inset>
-          <IonItem>
-            <IonButton expand="block" onClick={() => setIsAddOpen(true)}>
-              <IonIcon slot="start" icon={addOutline} aria-hidden="true" />
-              Add note
+      <IonContent style={{ '--background': 'var(--app-background)' } as React.CSSProperties}>
+        {notes.length === 0 ? (
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '80%',
+            padding: 'var(--space-xl)',
+            textAlign: 'center'
+          }}>
+            <div style={{
+              width: '80px',
+              height: '80px',
+              borderRadius: 'var(--radius-full)',
+              background: 'var(--app-surface)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              marginBottom: 'var(--space-lg)',
+              border: '0.5px solid var(--app-border)'
+            }}>
+              <IonIcon icon={documentTextOutline} style={{ fontSize: '32px', color: 'var(--app-text-hint)' }} />
+            </div>
+            <h2 style={{ 
+              fontSize: 'var(--font-size-lg)', 
+              fontWeight: 'var(--font-weight-semibold)', 
+              color: 'var(--app-text-main)',
+              margin: '0 0 var(--space-sm) 0'
+            }}>Capturing Ideas</h2>
+            <p style={{ 
+              fontSize: 'var(--font-size-sm)', 
+              color: 'var(--app-text-muted)',
+              margin: 0,
+              lineHeight: '1.5'
+            }}>
+              Draft a note, jot a reminder, or stash a link for later. Your thoughts stay perfectly in sync.
+            </p>
+            <IonButton 
+              fill="clear" 
+              onClick={() => setIsAddOpen(true)}
+              style={{ marginTop: 'var(--space-lg)', '--color': 'var(--app-primary)', fontWeight: 'var(--font-weight-medium)' }}
+            >
+              <IonIcon slot="start" icon={createOutline} />
+              Write your first note
             </IonButton>
-          </IonItem>
-        </IonList>
+          </div>
+        ) : (
+          <IonList style={{ background: 'transparent', padding: '0 var(--space-md)' }}>
+            {notes.map((note) => (
+              <IonItemSliding key={note.id} style={{ marginBottom: 'var(--space-sm)' }}>
+                <IonItem style={{ 
+                  '--background': 'var(--app-card-bg)',
+                  '--border-radius': 'var(--radius-md)',
+                  '--border-width': '0.5px',
+                  '--border-color': 'var(--app-border)',
+                  '--inner-padding-end': 'var(--space-md)',
+                  boxShadow: 'var(--shadow-sm)'
+                } as React.CSSProperties} lines="none">
+                  <IonLabel className="ion-text-wrap" style={{ padding: 'var(--space-sm) 0' }}>
+                    <p style={{ 
+                      fontSize: 'var(--font-size-sm)', 
+                      color: 'var(--app-text-main)',
+                      lineHeight: '1.5'
+                    }}>{note.text}</p>
+                  </IonLabel>
+                </IonItem>
 
-        <IonList inset>
-          {notes.length === 0 ? (
-            <IonCard color="light" style={{ minHeight: '180px' }}>
-              <IonCardHeader>
-                <IonCardTitle>Capture ideas quickly</IonCardTitle>
-              </IonCardHeader>
-              <IonCardContent>
-                <p className="ion-margin-bottom">
-                  Draft a note, jot a reminder, or stash a link for later. Notes stay in sync automatically.
-                </p>
-                <IonButton expand="block" onClick={() => setIsAddOpen(true)}>
-                  Write a note
-                </IonButton>
-              </IonCardContent>
-            </IonCard>
-          ) : (
-            notes.map((note) => (
-              <IonItem key={note.id}>
-                <IonLabel>{note.text}</IonLabel>
-                <IonButton fill="clear" color="danger" onClick={() => setPendingNoteDelete(note)}>
-                  <IonIcon icon={trashOutline} aria-hidden="true" />
-                </IonButton>
-              </IonItem>
-            ))
-          )}
-        </IonList>
+                <IonItemOptions side="end">
+                  <IonItemOption 
+                    color="danger" 
+                    onClick={() => setPendingNoteDelete(note)}
+                    style={{ borderRadius: '0 var(--radius-md) var(--radius-md) 0' }}
+                  >
+                    <IonIcon slot="icon-only" icon={trashOutline} />
+                  </IonItemOption>
+                </IonItemOptions>
+              </IonItemSliding>
+            ))}
+          </IonList>
+        )}
+
+        {/* FAB for adding items - modern mobile standard */}
+        <IonFab vertical="bottom" horizontal="end" slot="fixed" style={{ margin: 'var(--space-md)' }}>
+          <IonFabButton onClick={() => setIsAddOpen(true)} style={{ '--background': 'var(--app-primary)', '--box-shadow': 'var(--shadow-lg)' } as React.CSSProperties}>
+            <IonIcon icon={addOutline} />
+          </IonFabButton>
+        </IonFab>
 
         <IonAlert
           isOpen={isAddOpen}
           header="New note"
+          cssClass="custom-alert"
           inputs={[
             {
               name: 'text',
               type: 'textarea',
-              placeholder: 'Write a quick note...'
+              placeholder: 'Write something...'
             }
           ]}
           buttons={[
@@ -109,7 +167,7 @@ const Notes: React.FC<NotesProps> = ({ notes, setNotes }) => {
         <IonAlert
           isOpen={Boolean(pendingNoteDelete)}
           header="Delete note?"
-          message={`Remove this note? "${pendingNoteDelete?.text}"`}
+          message="This action cannot be undone."
           buttons={[
             {
               text: 'Cancel',
@@ -129,6 +187,9 @@ const Notes: React.FC<NotesProps> = ({ notes, setNotes }) => {
           ]}
           onDidDismiss={() => setPendingNoteDelete(null)}
         />
+        
+        {/* Safe area spacer */}
+        <div style={{ height: 'calc(var(--space-2xl) + env(safe-area-inset-bottom))' }} />
       </IonContent>
     </IonPage>
   );

@@ -1,2 +1,319 @@
-/* For information on how to create your own theme, please refer to:
-   http://ionicframework.com/docs/theming/ */
+/**
+ * Design System Tokens
+ * ----------------------------------------------------------------------------
+ * A modern, cohesive design system for the university app.
+ *
+ * Fonts:
+ *   Heading: Playfair Display (classic serif)
+ *   Body:    Montserrat (clean geometric sans-serif)
+ */
+
+/* ---------------------------------------------------------------------------
+ * @font-face — Self-hosted classic fonts
+ * -------------------------------------------------------------------------*/
+@font-face {
+   font-family: 'Playfair Display';
+   src: url('../assets/fonts/PlayfairDisplay-Regular.ttf') format('truetype');
+   font-weight: 400;
+   font-style: normal;
+   font-display: swap;
+}
+
+@font-face {
+   font-family: 'Playfair Display';
+   src: url('../assets/fonts/PlayfairDisplay-Bold.ttf') format('truetype');
+   font-weight: 700;
+   font-style: normal;
+   font-display: swap;
+}
+
+@font-face {
+   font-family: 'Montserrat';
+   src: url('../assets/fonts/Montserrat-Regular.ttf') format('truetype');
+   font-weight: 400;
+   font-style: normal;
+   font-display: swap;
+}
+
+@font-face {
+   font-family: 'Montserrat';
+   src: url('../assets/fonts/Montserrat-Medium.ttf') format('truetype');
+   font-weight: 500;
+   font-style: normal;
+   font-display: swap;
+}
+
+@font-face {
+   font-family: 'Montserrat';
+   src: url('../assets/fonts/Montserrat-SemiBold.ttf') format('truetype');
+   font-weight: 600;
+   font-style: normal;
+   font-display: swap;
+}
+
+@font-face {
+   font-family: 'Montserrat';
+   src: url('../assets/fonts/Montserrat-Bold.ttf') format('truetype');
+   font-weight: 700;
+   font-style: normal;
+   font-display: swap;
+}
+
+:root {
+   /* ---------------------------------------------------------------------------
+   * Primary Palette (Modern Blue)
+   * -------------------------------------------------------------------------*/
+   --app-primary: #3b82f6;
+   --app-primary-rgb: 59, 130, 246;
+   --app-primary-shade: #3472d8;
+   --app-primary-tint: #4f8ff7;
+   --app-primary-soft: rgba(59, 130, 246, 0.10);
+   --app-primary-muted: rgba(59, 130, 246, 0.20);
+   --app-primary-text: #1d4ed8;
+
+   /* ---------------------------------------------------------------------------
+   * Semantic Colors — full scale (base + soft bg + text variant)
+   * -------------------------------------------------------------------------*/
+   --app-success: #10b981;
+   --app-success-soft: rgba(16, 185, 129, 0.10);
+   --app-success-muted: rgba(16, 185, 129, 0.20);
+   --app-success-text: #065f46;
+
+   --app-warning: #f59e0b;
+   --app-warning-soft: rgba(245, 158, 11, 0.10);
+   --app-warning-muted: rgba(245, 158, 11, 0.20);
+   --app-warning-text: #92400e;
+
+   --app-danger: #ef4444;
+   --app-danger-soft: rgba(239, 68, 68, 0.10);
+   --app-danger-muted: rgba(239, 68, 68, 0.20);
+   --app-danger-text: #991b1b;
+
+   --app-secondary: #8b5cf6;
+   --app-secondary-soft: rgba(139, 92, 246, 0.10);
+   --app-secondary-text: #5b21b6;
+
+   --app-tertiary: #06b6d4;
+   --app-tertiary-soft: rgba(6, 182, 212, 0.10);
+   --app-tertiary-text: #0e7490;
+
+   /* ---------------------------------------------------------------------------
+   * Grayscale & Neutral
+   * -------------------------------------------------------------------------*/
+   --app-background: #ffffff;
+   --app-surface: #f8fafc;
+   --app-card-bg: #ffffff;
+   --app-text-main: #1e293b;
+   --app-text-muted: #64748b;
+   --app-text-hint: #94a3b8;
+   --app-border: #e2e8f0;
+   --app-border-strong: #cbd5e1;
+   --app-timeline-line: #e2e8f0;
+
+   /* ---------------------------------------------------------------------------
+   * Spacing Tokens
+   * -------------------------------------------------------------------------*/
+   --space-2xs: 2px;
+   --space-xs: 4px;
+   --space-sm: 8px;
+   --space-md: 16px;
+   --space-lg: 24px;
+   --space-xl: 32px;
+   --space-2xl: 48px;
+
+   /* ---------------------------------------------------------------------------
+   * Border Radius
+   * -------------------------------------------------------------------------*/
+   --radius-xs: 4px;
+   --radius-sm: 8px;
+   --radius-md: 16px;
+   --radius-lg: 24px;
+   --radius-full: 9999px;
+
+   /* ---------------------------------------------------------------------------
+   * Typography
+   * -------------------------------------------------------------------------*/
+   --font-family-body: 'Montserrat', -apple-system, BlinkMacSystemFont,
+      "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
+   --font-family-heading: 'Montserrat', -apple-system, BlinkMacSystemFont,
+      "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
+
+   --font-size-xs: 12px;
+   --font-size-sm: 14px;
+   --font-size-md: 16px;
+   --font-size-lg: 20px;
+   --font-size-xl: 24px;
+   --font-size-2xl: 30px;
+
+   --font-weight-normal: 400;
+   --font-weight-medium: 500;
+   --font-weight-semibold: 600;
+
+   --line-height-tight: 1.25;
+   --line-height-base: 1.5;
+   --line-height-relaxed: 1.75;
+
+   /* ---------------------------------------------------------------------------
+   * Shadows & Elevation
+   * -------------------------------------------------------------------------*/
+   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.10);
+   --shadow-lg: 0 10px 25px rgba(59, 130, 246, 0.15);
+   --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.12);
+
+   /* ---------------------------------------------------------------------------
+   * Motion & Animation
+   * -------------------------------------------------------------------------*/
+   --ease-in: cubic-bezier(0.4, 0, 1, 1);
+   --ease-out: cubic-bezier(0, 0, 0.2, 1);
+   --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+   --duration-fast: 150ms;
+   --duration-base: 250ms;
+   --duration-slow: 400ms;
+
+   /* ---------------------------------------------------------------------------
+   * Z-Index Scale
+   * -------------------------------------------------------------------------*/
+   --z-below: -1;
+   --z-base: 0;
+   --z-raised: 10;
+   --z-dropdown: 1000;
+   --z-sticky: 1100;
+   --z-overlay: 1200;
+   --z-modal: 2000;
+   --z-toast: 3000;
+
+   /* ---------------------------------------------------------------------------
+   * Ionic Overrides
+   * -------------------------------------------------------------------------*/
+   --ion-color-primary: var(--app-primary);
+   --ion-color-primary-rgb: var(--app-primary-rgb);
+   --ion-color-primary-shade: var(--app-primary-shade);
+   --ion-color-primary-tint: var(--app-primary-tint);
+
+   --ion-color-success: var(--app-success);
+   --ion-color-warning: var(--app-warning);
+   --ion-color-danger: var(--app-danger);
+
+   --ion-background-color: var(--app-background);
+   --ion-text-color: var(--app-text-main);
+
+   --ion-font-family: var(--font-family-body);
+}
+
+/* Headings also use the body sans-serif (Montserrat) */
+
+/* -----------------------------------------------------------------------------
+ * Ionic Component Overrides
+ * ---------------------------------------------------------------------------*/
+ion-content {
+   --background: var(--app-background);
+}
+
+ion-toolbar {
+   --background: var(--app-background);
+   --border-style: none;
+   --box-shadow: none;
+}
+
+ion-tab-bar {
+   --background: var(--app-background);
+   --border-color: var(--app-border);
+}
+
+ion-card {
+   --background: var(--app-card-bg);
+   box-shadow: var(--shadow-md);
+   border-radius: var(--radius-md);
+}
+
+ion-item {
+   --background: var(--app-background);
+   --border-color: var(--app-border);
+   --color: var(--app-text-main);
+}
+
+.ion-list-inset {
+   --background: var(--app-background);
+}
+
+/* -----------------------------------------------------------------------------
+ * Dark Mode Overrides
+ * Applied via system preference OR .dark class on <body> / <ion-app>.
+ * ---------------------------------------------------------------------------*/
+@media (prefers-color-scheme: dark) {
+   :root {
+      /* Surfaces — match .dark exactly */
+      --app-background: #111111;
+      --app-surface: #1a1a1a;
+      --app-card-bg: #222222;
+
+      --app-text-main: #f8fafc;
+      --app-text-muted: #94a3b8;
+      --app-text-hint: #64748b;
+
+      --app-border: #2a2a2a;
+      --app-border-strong: #3a3a3a;
+      --app-timeline-line: #3a3a3a;
+
+      /* everything below is identical to your .dark block */
+      --app-primary-soft: rgba(59, 130, 246, 0.15);
+      --app-success-soft: rgba(16, 185, 129, 0.15);
+      --app-warning-soft: rgba(245, 158, 11, 0.15);
+      --app-danger-soft: rgba(239, 68, 68, 0.15);
+      --app-secondary-soft: rgba(139, 92, 246, 0.15);
+      --app-tertiary-soft: rgba(6, 182, 212, 0.15);
+
+      --app-primary-text: #93c5fd;
+      --app-success-text: #6ee7b7;
+      --app-warning-text: #fde68a;
+      --app-danger-text: #fca5a5;
+      --app-secondary-text: #c4b5fd;
+      --app-tertiary-text: #67e8f9;
+
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.30);
+      --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
+      --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.40);
+      --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.50);
+   }
+}
+
+.dark {
+   /* Surfaces — pure neutral grays, no blue tint */
+   --app-background: #111111;
+   --app-surface: #1a1a1a;
+   --app-card-bg: #222222;
+
+   /* Text — unchanged, these work on any dark surface */
+   --app-text-main: #f8fafc;
+   --app-text-muted: #94a3b8;
+   --app-text-hint: #64748b;
+
+   /* Borders */
+   --app-border: #2a2a2a;
+   --app-border-strong: #3a3a3a;
+   --app-timeline-line: #3a3a3a;
+
+   /* Soft backgrounds — unchanged */
+   --app-primary-soft: rgba(59, 130, 246, 0.15);
+   --app-success-soft: rgba(16, 185, 129, 0.15);
+   --app-warning-soft: rgba(245, 158, 11, 0.15);
+   --app-danger-soft: rgba(239, 68, 68, 0.15);
+   --app-secondary-soft: rgba(139, 92, 246, 0.15);
+   --app-tertiary-soft: rgba(6, 182, 212, 0.15);
+
+   /* Semantic text — unchanged */
+   --app-primary-text: #93c5fd;
+   --app-success-text: #6ee7b7;
+   --app-warning-text: #fde68a;
+   --app-danger-text: #fca5a5;
+   --app-secondary-text: #c4b5fd;
+   --app-tertiary-text: #67e8f9;
+
+   /* Shadows — unchanged */
+   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.30);
+   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
+   --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.40);
+   --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.50);
+}
