@@ -26,6 +26,7 @@ import { DAY_LABELS, getLecturesForDay, LectureItem } from './constants/timetabl
 import Announcements from './pages/Announcements';
 import Timetable from './pages/Timetable';
 import AcademicRecord from './pages/AcademicRecord';
+import PWASyncProgress from './components/PWASyncProgress';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -57,6 +58,7 @@ const App: React.FC = () => {
 
   return (
     <IonApp>
+      <PWASyncProgress />
       <IonReactRouter>
         <AppContent
           todayLabel={todayLabel}

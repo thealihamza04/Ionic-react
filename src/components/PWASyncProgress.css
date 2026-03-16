@@ -1,0 +1,83 @@
+.pwa-sync-container {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  animation: slideDown 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.pwa-sync-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 16px;
+  padding: 16px;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 
+              0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  pointer-events: auto;
+}
+
+.dark .pwa-sync-card {
+  background: rgba(30, 30, 30, 0.85);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.pwa-sync-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.syncing-icon {
+  font-size: 24px;
+  color: var(--ion-color-primary);
+  animation: bounce 2s infinite ease-in-out;
+}
+
+.completed-icon {
+  font-size: 24px;
+  color: var(--ion-color-success);
+}
+
+.pwa-sync-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ion-text-color);
+}
+
+.pwa-sync-subtitle {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: var(--app-text-muted);
+}
+
+.pwa-sync-bar {
+  height: 6px;
+  border-radius: 3px;
+  --buffer-background: var(--app-border);
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
